@@ -18,6 +18,7 @@ const appState = {
         'staff': 8,
         'archives': 2
     },
+    
     zoneRestrictions: {
         'reception': ['receptionist', 'manager', 'cleaner'],
         'server': ['technician', 'manager'],
