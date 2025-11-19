@@ -1,14 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>WorkSphere - Gestion du Personnel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="style/style.css">
+
+   <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        success: {
+                            50: '#ecfdf5',
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        warning: {
+                            50: '#fffbeb',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        error: {
+                            50: '#fef2f2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    
 </head>
-<body>
-    
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-building text-white text-sm"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-900">WorkSphere</h1>
+                    <span class="ml-2 text-sm text-gray-500 hidden sm:inline"></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-warning-500 hover:bg-warning-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm">
+                        <i class="fas fa-random mr-2"></i>Réorganisation Auto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-col lg:flex-row h-[calc(100vh-4rem)]">
+        <!-- Sidebar - Unassigned Staff -->
+        <aside class="lg:w-80 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold text-gray-900">
+                    <i class="fas fa-users mr-2 text-gray-400"></i>Personnel Non Assigné
+                </h2>
+                <button id="add-worker-btn" class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-3 rounded-lg transition-colors duration-200 text-sm">
+                    <i class="fas fa-plus mr-1"></i>Nouvel Employé
+                </button>
+            </div>
+            
+            <div id="unassigned-staff" class="space-y-3 min-h-[100px]">
+                <!-- Employés non assignés apparaîtront ici -->
+                <div class="text-center py-8 text-gray-400">
+                    <i class="fas fa-user-slash text-3xl mb-2"></i>
+                    <p>Aucun employé non assigné</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content - Floor Plan -->
+        <main class="flex-1 p-4 lg:p-6 overflow-auto bg-gray-50">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 max-w-7xl mx-auto">
+                
+                <!-- Zone: Salle de Conférence -->
+                <div class="zone-occupied rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-chalkboard-teacher mr-2 text-blue-500"></i>Salle de Conférence
+                        </h3>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/10</span>
+                    </div>
+                    <div class="min-h-[120px] space-y-2" data-zone="conference">
+                        <!-- Employés assignés -->
+                    </div>
+                    <button class="add-to-zone w-full mt-2 py-2 text-center text-gray-400 hover:text-gray-600 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-sm">
+                        <i class="fas fa-plus mr-1"></i>Ajouter un employé
+                    </button>
+                </div>
+
+                <!-- Zone: Réception -->
+                <div class="zone-empty rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-concierge-bell mr-2 text-green-500"></i>Réception
+                        </h3>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/2</span>
+                    </div>
+                    <div class="min-h-[120px] space-y-2" data-zone="reception">
+                        <!-- Employés assignés -->
+                    </div>
+                    <button class="add-to-zone w-full mt-2 py-2 text-center text-gray-400 hover:text-gray-600 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-sm">
+                        <i class="fas fa-plus mr-1"></i>Ajouter un employé
+                    </button>
+                </div>
+
+                <!-- Zone: Salle des Serveurs -->
+                <div class="zone-empty rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-server mr-2 text-purple-500"></i>Salle des Serveurs
+                        </h3>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/3</span>
+                    </div>
+                    <div class="min-h-[120px] space-y-2" data-zone="server">
+                        <!-- Employés assignés -->
+                    </div>
+                    <button class="add-to-zone w-full mt-2 py-2 text-center text-gray-400 hover:text-gray-600 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-sm">
+                        <i class="fas fa-plus mr-1"></i>Ajouter un employé
+                    </button>
+                </div>
+
+                <!-- Zone: Salle de Sécurité -->
+                <div class="zone-empty rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-shield-alt mr-2 text-red-500"></i>Salle de Sécurité
+                        </h3>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/2</span>
+                    </div>
+                    <div class="min-h-[120px] space-y-2" data-zone="security">
+                        <!-- Employés assignés -->
+                    </div>
+                    <button class="add-to-zone w-full mt-2 py-2 text-center text-gray-400 hover:text-gray-600 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-sm">
+                        <i class="fas fa-plus mr-1"></i>Ajouter un employé
+                    </button>
+                </div>
+
+                <!-- Zone: Salle du Personnel -->
+                <div class="zone-occupied rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-user-friends mr-2 text-orange-500"></i>Salle du Personnel
+                        </h3>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/8</span>
+                    </div>
+                    <div class="min-h-[120px] space-y-2" data-zone="staff">
+                        <!-- Employés assignés -->
+                    </div>
+                    <button class="add-to-zone w-full mt-2 py-2 text-center text-gray-400 hover:text-gray-600 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-sm">
+                        <i class="fas fa-plus mr-1"></i>Ajouter un employé
+                    </button>
+                </div>
+
+                <!-- Zone: Salle d'Archives -->
+                <div class="zone-empty rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-archive mr-2 text-yellow-500"></i>Salle d'Archives
+                        </h3>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/2</span>
+                    </div>
+                    <div class="min-h-[120px] space-y-2" data-zone="archives">
+                        <!-- Employés assignés -->
+                    </div>
+                    <button class="add-to-zone w-full mt-2 py-2 text-center text-gray-400 hover:text-gray-600 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors text-sm">
+                        <i class="fas fa-plus mr-1"></i>Ajouter un employé
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Add Employee -->
+    <div id="add-employee-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden  overflow-y-auto items-center justify-center z-50 ">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-auto animate-fade-in   overflow-hidden">
+            <div class="p-2 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Ajouter un Employé</h3>
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-1 overflow-y-auto">
+                <form id="employee-form" class="space-y-4">
+                    <!-- Photo Preview -->
+                    <div class="flex justify-center mb-4">
+                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                            <img id="photo-preview" src="" alt="Preview" class="hidden w-full h-full object-cover">
+                            <i class="fas fa-user text-gray-400 text-3xl" id="photo-placeholder"></i>
+                        </div>
+                    </div>
+
+                    <!-- Nom -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                        <input type="text" name="name" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Rôle -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Rôle</label>
+                        <select name="role" required 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <option value="">Sélectionner un rôle</option>
+                            <option value="manager">Manager</option>
+                            <option value="receptionist">Réceptionniste</option>
+                            <option value="technician">Technicien IT</option>
+                            <option value="security">Agent de sécurité</option>
+                            <option value="cleaner">Agent de nettoyage</option>
+                            <option value="developer">Développeur</option>
+                            <option value="designer">Designer</option>
+                        </select>
+                    </div>
+
+                    <!-- Photo URL -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Photo (URL)</label>
+                        <input type="url" name="photo" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                               placeholder="https://example.com/photo.jpg">
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" name="email" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Téléphone -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                        <input type="tel" name="phone" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Expériences Professionnelles -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Expériences professionnelles</label>
+                        <div id="experiences-container" class="space-y-2 mb-2">
+                            <!-- Expériences dynamiques -->
+                        </div>
+                        <button type="button" id="add-experience" class="text-primary-600 hover:text-primary-700 text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i>Ajouter une expérience
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="p-6 border-t border-gray-200 bg-gray-50">
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancel-modal" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
+                        Annuler
+                    </button>
+                    <button type="submit" form="employee-form" class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                        Ajouter l'employé
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Profile Modal -->
+    <div id="employee-profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-auto animate-fade-in">
+            <div class="p-6">
+                <!-- Contenu du profil à implémenter -->
+            </div>
+        </div>
+    </div>
 
 
-    
+    <script src="scripte/scripte.js"></script>
 </body>
 </html>
