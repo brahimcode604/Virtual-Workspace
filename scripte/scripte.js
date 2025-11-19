@@ -29,9 +29,9 @@ const appState = {
 // Regex pour validation
 const validationRegex = {
     name: /^[a-zA-ZÀ-ÿ\s'-]{2,50}$/,
-    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    phone: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
-    photo: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))$/i
+    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+    phone: /^(?:(?:\+)212|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
+    photo: /^(https?:\/\/.*\.(?:png|jpg|jpeg))$/i
 };
 
 // Génération d'ID unique
@@ -52,7 +52,7 @@ function validateEmployee(data) {
     }
 
     if (data.phone && !validationRegex.phone.test(data.phone)) {
-        errors.push('Format de téléphone français invalide (ex: +33 1 23 45 67 89 ou 01 23 45 67 89)');
+        errors.push('Format de téléphone invalide (ex: +212 6 23 45 67 89 ou 07 52 45 67 89)');
     }
 
     if (data.photo && !validationRegex.photo.test(data.photo)) {
