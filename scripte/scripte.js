@@ -18,7 +18,7 @@ const appState = {
         'staff': 8,
         'archives': 2
     },
-    
+
     zoneRestrictions: {
         'reception': ['receptionist', 'manager', 'cleaner'],
         'server': ['technician', 'manager'],
@@ -26,6 +26,10 @@ const appState = {
         'archives': ['manager', 'developer', 'designer', 'receptionist', 'technician', 'security']
     }
 };
+
+
+
+// decumontaion__pr 1
 
 // Regex pour validation
 const validationRegex = {
@@ -39,6 +43,10 @@ const validationRegex = {
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
+
+
+
+
 
 // Validation des données employé
 function validateEmployee(data) {
