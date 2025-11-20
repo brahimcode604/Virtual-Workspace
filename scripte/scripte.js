@@ -555,6 +555,7 @@ function showZoneAssignmentModal(zone) {
 // GESTION DES EXPÉRIENCES PROFESSIONNELLES - CODE CORRIGÉ
 
 // Fonction pour récupérer et valider les expériences
+// Fonction pour récupérer et valider les expériences
 function getExperiencesData() {
     const experiences = [];
     const experienceItems = document.querySelectorAll('.experience-item');
@@ -577,12 +578,30 @@ function getExperiencesData() {
             return null;
         }
         
-        // Validation de la cohérence des dates
+        // Validation de la cohérence des dates - PARTIE MODIFIÉE
         if (dateFin && !enCours) {
-            if (new Date(dateFin) < new Date(dateDebut)) {
-                showError(`La date de fin ne peut pas être antérieure à la date de début pour l'expérience "${description}"`);
+            const debut = new Date(dateDebut);
+            const fin = new Date(dateFin);
+            
+            if (fin < debut) {
+                showError(`La date de fin (${formatDate(dateFin)}) ne peut pas être antérieure à la date de début (${formatDate(dateDebut)}) pour l'expérience "${description}"`);
                 return null;
             }
+            
+            // Validation supplémentaire : date de fin ne peut pas être dans le futur sauf si c'est le poste actuel
+            const aujourdHui = new Date();
+            if (fin > aujourdHui && !enCours) {
+                showError(`La date de fin (${formatDate(dateFin)}) ne peut pas être dans le futur pour l'expérience "${description}". Si c'est votre poste actuel, cochez "Poste actuel".`);
+                return null;
+            }
+        }
+        
+        // Validation : date de début ne peut pas être dans le futur
+        const debut = new Date(dateDebut);
+        const aujourdHui = new Date();
+        if (debut > aujourdHui) {
+            showError(`La date de début (${formatDate(dateDebut)}) ne peut pas être dans le futur pour l'expérience "${description}"`);
+            return null;
         }
         
         experiences.push({
