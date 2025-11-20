@@ -378,6 +378,8 @@ function showEmployeeProfile(employee) {
     });
 }
 
+
+
 // Mise à jour des styles des zones
 function updateZoneStyles() {
     const zoneElements = document.querySelectorAll('[data-zone]');
