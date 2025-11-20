@@ -2,21 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Employee Form</title>
 </head>
 <body>
-   
-    <form id="myForm">
-  <input type="text" name="username" placeholder="Enter username" />
-  <button type="submit">Submit</button>
-</form>
-<script>
-document.getElementById('myForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // stop the default page reload
-  alert('Form submission prevented! You can handle it with JS.');
-});
-</script>
+    <!-- Example form -->
+    <form id="employee-form">
+        <label>
+            Name:
+            <input type="text" name="name" required>
+        </label>
+        <br>
+        <label>
+            Email:
+            <input type="email" name="email" required>
+        </label>
+        <br>
+        <label>
+            Department:
+            <select name="department" required>
+                <option value="">--Select--</option>
+                <option value="HR">HR</option>
+                <option value="IT">IT</option>
+                <option value="Finance">Finance</option>
+            </select>
+        </label>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 
+    <script>
+        // Attach submit event listener to the form
+        document.getElementById('employee-form').addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
+
+            // Create FormData object from the form
+            const formData = new FormData(e.target);
+
+            // Convert FormData to a plain object for easier handling
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Example: Log the data to the console
+            console.log("Form Data Submitted:", data);
+
+            // Example: Send data to a server via fetch
+            fetch('/submit-employee', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(result => {
+                console.log("Server Response:", result);
+                alert("Form submitted successfully!");
+            })
+            .catch(error => {
+                console.error("Error submitting form:", error);
+                alert("There was an error submitting the form.");
+            });
+        });
+    </script>
 </body>
 </html>

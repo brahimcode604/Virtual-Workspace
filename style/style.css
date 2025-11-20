@@ -18,3 +18,32 @@
             background-color: #dbeafe;
             border: 2px dashed #3b82f6;
         }
+
+
+
+
+        /* Ajoutez ce CSS */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+*{
+
+
+
+    /* Ajoutez ce CSS */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+}

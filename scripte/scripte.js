@@ -18,9 +18,6 @@ const appState = {
         'staff': 8,
         'archives': 2
     },
-
-
-
     zoneRestrictions: {
         'reception': ['receptionist', 'manager', 'cleaner'],
         'server': ['technician', 'manager'],
@@ -29,32 +26,18 @@ const appState = {
     }
 };
 
-
-
-// decumontaion__pr 1
-
 // Regex pour validation
 const validationRegex = {
     name: /^[a-zA-ZÀ-ÿ\s'-]{2,50}$/,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
     phone: /^(?:(?:\+)212|0)\s*[567](?:[\s.-]*\d{2}){4}$/,
     photo: /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)(?:\?.*)?$/i
-
-
-
 };
-
-
-
 
 // Génération d'ID unique
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
-
-
-
-
 
 // Validation des données employé
 function validateEmployee(data) {
@@ -313,6 +296,17 @@ function createEmployeeCard(employee, isUnassigned) {
     return card;
 }
 
+// Fonction pour formater les dates
+function formatDate(dateString) {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString + '-01'); // Ajouter le jour pour éviter les problèmes de timezone
+    return date.toLocaleDateString('fr-FR', { 
+        year: 'numeric', 
+        month: 'short' 
+    });
+}
+
 // Affichage du profil employé
 function showEmployeeProfile(employee) {
     const modal = document.getElementById('employee-profile-modal');
@@ -355,8 +349,15 @@ function showEmployeeProfile(employee) {
             ${employee.experiences.length > 0 ? `
             <div>
                 <h4 class="font-semibold text-gray-900 mb-2">Expériences professionnelles</h4>
-                <ul class="space-y-1">
-                    ${employee.experiences.map(exp => `<li class="text-sm text-gray-600">• ${exp}</li>`).join('')}
+                <ul class="space-y-2">
+                    ${employee.experiences.map(exp => `
+                        <li class="text-sm text-gray-600 border-l-2 border-blue-500 pl-3 py-1">
+                            <div class="font-medium">${exp.description}</div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                ${formatDate(exp.date_debut)} - ${exp.en_cours ? 'En cours' : (exp.date_fin ? formatDate(exp.date_fin) : 'Non spécifiée')}
+                            </div>
+                        </li>
+                    `).join('')}
                 </ul>
             </div>
             ` : ''}
@@ -372,16 +373,11 @@ function showEmployeeProfile(employee) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 
-
-    
-
     document.getElementById('close-profile').addEventListener('click', () => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     });
 }
-
-
 
 // Mise à jour des styles des zones
 function updateZoneStyles() {
@@ -556,15 +552,127 @@ function showZoneAssignmentModal(zone) {
     document.body.appendChild(tempModal);
 }
 
+// GESTION DES EXPÉRIENCES PROFESSIONNELLES - CODE CORRIGÉ
+
+// Fonction pour récupérer et valider les expériences
+function getExperiencesData() {
+    const experiences = [];
+    const experienceItems = document.querySelectorAll('.experience-item');
+    
+    for (let i = 0; i < experienceItems.length; i++) {
+        const item = experienceItems[i];
+        const description = item.querySelector('input[name="experiences[][description]"]')?.value.trim();
+        const dateDebut = item.querySelector('input[name="experiences[][date_debut]"]')?.value;
+        const dateFin = item.querySelector('input[name="experiences[][date_fin]"]')?.value;
+        const enCours = item.querySelector('input[name="experiences[][en_cours]"]')?.checked || false;
+        
+        // Validation des champs obligatoires
+        if (!description) {
+            showError(`La description du poste est obligatoire pour l'expérience ${i + 1}`);
+            return null;
+        }
+        
+        if (!dateDebut) {
+            showError(`La date de début est obligatoire pour l'expérience "${description}"`);
+            return null;
+        }
+        
+        // Validation de la cohérence des dates
+        if (dateFin && !enCours) {
+            if (new Date(dateFin) < new Date(dateDebut)) {
+                showError(`La date de fin ne peut pas être antérieure à la date de début pour l'expérience "${description}"`);
+                return null;
+            }
+        }
+        
+        experiences.push({
+            description: description,
+            date_debut: dateDebut,
+            date_fin: enCours ? 'En cours' : (dateFin || ''),
+            en_cours: enCours
+        });
+    }
+    
+    return experiences;
+}
+
+// Ajout d'expériences dynamiques avec validation
+document.getElementById('add-experience').addEventListener('click', function() {
+    const container = document.getElementById('experiences-container');
+    
+    const experienceGroup = document.createElement('div');
+    experienceGroup.className = 'experience-item bg-gray-50 p-4 rounded-lg border border-gray-200 mb-3';
+    
+    experienceGroup.innerHTML = `
+        <div class="mb-3">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Description du poste *</label>
+            <input type="text" name="experiences[][description]" required 
+                   placeholder="Ex: Développeur Front-End chez Google"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Date de début *</label>
+                <input type="month" name="experiences[][date_debut]" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm experience-date-debut">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Date de fin</label>
+                <input type="month" name="experiences[][date_fin]"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm experience-date-fin">
+            </div>
+        </div>
+        
+        <div class="flex justify-between items-center">
+            <label class="flex items-center">
+                <input type="checkbox" name="experiences[][en_cours]" 
+                       class="mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500 experience-en-cours">
+                <span class="text-sm text-gray-700">Poste actuel</span>
+            </label>
+            
+            <button type="button" class="remove-experience text-red-600 hover:text-red-800 text-sm font-medium flex items-center">
+                <i class="fas fa-times mr-1"></i> Supprimer
+            </button>
+        </div>
+    `;
+    
+    container.appendChild(experienceGroup);
+    
+    // Gestion du bouton supprimer
+    const removeBtn = experienceGroup.querySelector('.remove-experience');
+    removeBtn.addEventListener('click', function() {
+        container.removeChild(experienceGroup);
+    });
+    
+    // Gestion de la case "En cours"
+    const enCoursCheckbox = experienceGroup.querySelector('.experience-en-cours');
+    const dateFinInput = experienceGroup.querySelector('.experience-date-fin');
+    
+    enCoursCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            dateFinInput.disabled = true;
+            dateFinInput.value = '';
+            dateFinInput.placeholder = 'Poste actuel';
+        } else {
+            dateFinInput.disabled = false;
+            dateFinInput.placeholder = '';
+        }
+    });
+});
+
 // Configuration des événements
 function setupEventListeners() {
     // Gestion du formulaire
     document.getElementById('employee-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const experiences = Array.from(document.querySelectorAll('input[name="experiences[]"]'))
-            .map(input => input.value.trim())
-            .filter(exp => exp !== '');
+        
+        // Récupérer les expériences professionnelles
+        const experiences = getExperiencesData();
+        
+        // Si getExperiencesData retourne null (à cause d'une erreur), on arrête
+        if (experiences === null) return;
 
         const employeeData = {
             name: formData.get('name'),
@@ -650,17 +758,6 @@ document.querySelector('input[name="photo"]').addEventListener('input', function
         preview.classList.add('hidden');
         placeholder.classList.remove('hidden');
     }
-});
-
-// Ajout d'expériences dynamiques
-document.getElementById('add-experience').addEventListener('click', function() {
-    const container = document.getElementById('experiences-container');
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.name = 'experiences[]';
-    input.placeholder = 'Ex: Développeur Front-End chez ABC (2020-2022)';
-    input.className = 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm';
-    container.appendChild(input);
 });
 
 // Fermer les modales en cliquant à l'extérieur
