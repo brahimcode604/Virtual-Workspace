@@ -372,6 +372,9 @@ function showEmployeeProfile(employee) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 
+
+    
+
     document.getElementById('close-profile').addEventListener('click', () => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
