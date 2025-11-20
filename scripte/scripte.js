@@ -19,6 +19,8 @@ const appState = {
         'archives': 2
     },
 
+
+
     zoneRestrictions: {
         'reception': ['receptionist', 'manager', 'cleaner'],
         'server': ['technician', 'manager'],
@@ -35,9 +37,15 @@ const appState = {
 const validationRegex = {
     name: /^[a-zA-ZÀ-ÿ\s'-]{2,50}$/,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-    phone: /^(?:(?:\+)212|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/,
-    photo: /^(https?:\/\/.*\.(?:png|jpg|jpeg))$/i
+    phone: /^(?:(?:\+)212|0)\s*[567](?:[\s.-]*\d{2}){4}$/,
+    photo: /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)(?:\?.*)?$/i
+
+
+
 };
+
+
+
 
 // Génération d'ID unique
 function generateId() {
