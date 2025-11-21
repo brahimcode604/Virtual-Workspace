@@ -1,0 +1,49 @@
+
+        .zone-empty {
+            background-color: #fef2f2;
+            border: 2px dashed #fecaca;
+        }
+        .zone-occupied {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+        }
+        .employee-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .employee-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .drag-over {
+            background-color: #dbeafe;
+            border: 2px dashed #3b82f6;
+        }
+
+
+
+
+        /* Ajoutez ce CSS */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+*{
+
+
+
+    /* Ajoutez ce CSS */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+}
