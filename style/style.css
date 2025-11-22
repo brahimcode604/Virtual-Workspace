@@ -1,11 +1,11 @@
 
         .zone-empty {
-            background-color: #fef2f2;
-            border: 2px dashed #fecaca;
+            background-color: #e893935d;
+            border: 2px dashed #fecaca00;
         }
         .zone-occupied {
-            background-color: white;
-            border: 1px solid #e5e7eb;
+            
+            border: 1px solid #e5e7eb00;
         }
         .employee-card {
             transition: all 0.2s ease-in-out;
@@ -33,17 +33,3 @@
 }
 
 
-*{
-
-
-
-    /* Ajoutez ce CSS */
-.hide-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-
-.hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-}

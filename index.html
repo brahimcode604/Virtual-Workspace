@@ -55,7 +55,7 @@
     </script>
     
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50  ">
     <!-- Header -->
     <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,7 +79,7 @@
 
     <div class="flex flex-col lg:flex-row h-[calc(100vh-4rem)]">
         <!-- Sidebar - Unassigned Staff -->
-        <aside class="lg:w-[23vw] bg-white border-b lg:border-b-0 lg:border-r border-gray-200 p-6 overflow-y-auto ">
+        <aside class="order-2 md:order-1 lg:w-[23vw] bg-white border-b lg:border-b-0 lg:border-r border-gray-200 p-6 overflow-y-auto ">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-lg font-semibold text-gray-900">
                     <i class="fas fa-users mr-2 text-gray-400"></i>Non Assigné
@@ -98,131 +98,152 @@
             </div>
         </aside>
 
-        <div>
 
 
-        </div>
-
+        <!-- bg-[url('/images/planet.jpg')] bg-cover bg-center -->
+         <!-- <img src="img/plan-69159a65c5684763515973.png" alt=""> -->
 
         <!-- Main Content - Floor Plan -->
-        <main class="flex-1 p-4 lg:p-2 overflow-auto  bg-gray-50">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-2 max-w-7xl h-[113%] mx-auto">
-                
-                <!-- Zone: Salle de Conférence -->
-                <div class="zone-occupied rounded-xl p-4 ">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-chalkboard-teacher mr-2 text-blue-500"></i>Salle de Conférence
-                        </h3>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/10</span>
-                    </div>
-                    <div class="min-h-[120px] space-y-2" data-zone="conference">
-                        <!-- Employés assignés -->
-                    </div>
-                    <button class="add-to-zone w-full  mt-5 text-center text-gray-400 hover:text-gray-600       transition-colors text-sm">
-                       
-                       <div class="flex  items-center gap-2 "> 
-                        <img  class="w-8" src="img/9604222.png" alt=""> Assigne
-                        <!-- <i class="fas fa-plus mr-1"></i> --></div>
-                    </button>
-                </div>
+        <main class="flex-1 p-4 lg:p-2    order-1 md:order-2  bg-gray-50">
+ <!-- CONTAINER GLOBAL -->
+<div class="relative w-full h-[120vh] mx-auto 
+    bg-[url('img/plan-69159a65c5684763515973.png')] bg-cover bg-center  h-[38vw] 
+    bg-cover bg-center">
 
-                <!-- Zone: Réception -->
-                <div class="zone-empty rounded-xl p-4 shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-concierge-bell mr-2 text-green-500"></i>Réception
-                        </h3>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/2</span>
-                    </div>
-                    <div class="min-h-[120px] space-y-2" data-zone="reception">
-                        <!-- Employés assignés -->
-                    </div>
-                    <button class="add-to-zone w-full  mt-5 text-center text-gray-400 hover:text-gray-600       transition-colors text-sm">
-                       
-                       <div class="flex  items-center gap-2 "> 
-                        <img  class="w-8" src="img/9604222.png" alt=""> Assigne
-                        <!-- <i class="fas fa-plus mr-1"></i> --></div>
-                    </button>
-                </div>
+    <!-- S A L L E   D U   P E R S O N N E L -->
+    <div class="absolute top-[%] left-[1%] w-[37%] h-[27%]  lg:h-[31%] 
+                  rounded-xl p-[0.1vw] shadow-lg zone-occupied">
 
-                <!-- Zone: Salle des Serveurs -->
-                <div class="zone-empty rounded-xl p-4 shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-server mr-2 text-purple-500"></i>Salle des Serveurs
-                        </h3>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/3</span>
-                    </div>
-                    <div class="min-h-[120px] space-y-2" data-zone="server">
-                        <!-- Employés assignés -->
-                    </div>
-                    <button class="add-to-zone w-full  mt-5 text-center text-gray-400 hover:text-gray-600       transition-colors text-sm">
-                       
-                       <div class="flex  items-center gap-2 "> 
-                        <img  class="w-8" src="img/9604222.png" alt=""> Assigne
-                        <!-- <i class="fas fa-plus mr-1"></i> --></div>
-                    </button>
-                </div>
+        <div class="flex justify-between items-center mb-[0.8vw]">
+            <h3 class="font-semibold bg-white px-1 rounded text-gray-900 flex items-center text-[1.1vw]">
+                <i class=" mr-[0.5vw] text-orange-500 text-[1vw]"></i>
+                Salle du Personnel
+            </h3>
+            <span class="text-[0.9vw] text-gray-500 bg-gray-100 px-[0.8vw] py-[0.3vw] rounded">0/8</span>
+        </div>
 
-                <!-- Zone: Salle de Sécurité -->
-                <div class="zone-empty rounded-xl p-4 shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-shield-alt mr-2 text-red-500"></i>Salle de Sécurité
-                        </h3>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/2</span>
-                    </div>
-                    <div class="min-h-[120px] space-y-2" data-zone="security">
-                        <!-- Employés assignés -->
-                    </div>
-                    <button class="add-to-zone w-full  mt-5 text-center text-gray-400 hover:text-gray-600       transition-colors text-sm">
-                       
-                       <div class="flex  items-center gap-2 "> 
-                        <img  class="w-8" src="img/9604222.png" alt=""> Assigne
-                        <!-- <i class="fas fa-plus mr-1"></i> --></div>
-                    </button>
-                </div>
+        <div class="min-h-[6.9vw] grid gap-[0.2vw] grid-cols-2 grid-rows-3 space-y-[0.4vw]" data-zone="staff"></div>
 
-                <!-- Zone: Salle du Personnel -->
-                <div class="zone-occupied rounded-xl p-4 shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-user-friends mr-2 text-orange-500"></i>Salle du Personnel
-                        </h3>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/8</span>
-                    </div>
-                    <div class="min-h-[120px] space-y-2" data-zone="staff">
-                        <!-- Employés assignés -->
-                    </div>
-                    <button class="add-to-zone w-full  mt-5 text-center text-gray-400 hover:text-gray-600       transition-colors text-sm">
-                       
-                       <div class="flex  items-center gap-2 "> 
-                        <img  class="w-8" src="img/9604222.png" alt=""> Assigne
-                        <!-- <i class="fas fa-plus mr-1"></i> --></div>
-                    </button>
-                </div>
-
-                <!-- Zone: Salle d'Archives -->
-                <div class="zone-empty rounded-xl p-4 shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-semibold text-gray-900 flex items-center">
-                            <i class="fas fa-archive mr-2 text-yellow-500"></i>Salle d'Archives
-                        </h3>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">0/2</span>
-                    </div>
-                    <div class="min-h-[120px] space-y-2" data-zone="archives">
-                        <!-- Employés assignés -->
-                    </div>
-                    <button class="add-to-zone w-full  mt-5 text-center text-gray-400 hover:text-gray-600       transition-colors text-sm">
-                       
-                       <div class="flex  items-center gap-2 "> 
-                        <img  class="w-8" src="img/9604222.png" alt=""> Assigne
-                        <!-- <i class="fas fa-plus mr-1"></i> --></div>
-                    </button>
-                </div>
-
+        <button class="add-to-zone w-full text-center text-gray-400 hover:text-gray-600 transition-colors text-[0.9vw]  ">
+            <div class="flex items-center justify-center gap-[0.5vw]">
+                <img class="w-[1.8vw]" src="img/9604222.png">
+                <span>Assigner</span>
             </div>
+        </button>
+    </div>
+
+    <!-- R É C E P T I O N -->
+    <div class="absolute top-[%] left-[54%] w-[23%] h-[29%] lg:h-[31%]
+                  rounded-xl p-[0.1vw] pl-[1vw] shadow-lg zone-empty">
+
+        <div class="flex justify-between items-center mb-[0.8vw]">
+            <h3 class="font-semibold bg-white px-1 rounded text-gray-900 flex items-center text-[1.1vw]">
+                <i class="  mr-[0.5vw] text-green-500 text-[1.3vw]"></i>
+                Réception
+            </h3>
+            <span class="text-[0.9vw] text-gray-500 bg-gray-100 px-[0.8vw] py-[0.3vw] rounded">0/2</span>
+        </div>
+
+        <div class="min-h-[6.9vw] space-y-[0.4vw]" data-zone="reception"></div>
+
+        <button class="add-to-zone w-full text-center text-gray-400 hover:text-gray-600 transition-colors text-[0.9vw]  ">
+            <div class="flex items-center justify-center gap-[0.5vw]">
+                <img class="w-[1.8vw]" src="img/9604222.png">
+                <span>Assigner</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- S A L L E   D E S   S E R V E U R S -->
+    <div class="absolute top-[%] left-[77%] w-[23%] h-[29%] lg:h-[31%]
+                  rounded-xl p-[0.1vw] shadow-lg zone-empty">
+
+        <div class="flex justify-between items-center mb-[0.8vw]">
+            <h3 class="font-semibold bg-white px-1 rounded text-gray-900 flex items-center text-[1.1vw]">
+                <i class=" mr-[0.5vw] text-purple-500 text-[1.3vw]"></i>
+                Salle des Serveurs
+            </h3>
+            <span class="text-[0.9vw] text-gray-500 bg-gray-100 px-[0.8vw] py-[0.3vw] rounded">0/3</span>
+        </div>
+
+        <div class="min-h-[6.9vw] space-y-[0.4vw]" data-zone="server"></div>
+
+        <button class="add-to-zone w-full text-center text-gray-400 hover:text-gray-600 transition-colors text-[0.9vw]  ">
+            <div class="flex items-center justify-center gap-[0.5vw]">
+                <img class="w-[1.8vw]" src="img/9604222.png">
+                <span>Assigner</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- S A L L E   D E   C O N F É R E N C E -->
+    <div class="absolute top-[34%] left-[1%] w-[37%] h-[65%]
+                  rounded-xl p-[0.1vw] shadow-lg zone-occupied">
+
+        <div class="flex justify-between items-center mb-[0.8vw]">
+            <h3 class="font-semibold bg-white px-1 rounded text-gray-900 flex items-center text-[1.1vw]">
+                <i class=" mr-[0.5vw] text-blue-500 text-[1.3vw]"></i>
+                Salle de Conférence
+            </h3>
+            <span class="text-[0.9vw] text-gray-500 bg-gray-100 px-[0.8vw] py-[0.3vw] rounded">0/10</span>
+        </div>
+
+        <div class="min-h-[8vw] space-y-[0.4vw] grid gap-[0.2vw] grid-cols-2 grid-rows-3 " data-zone="conference"></div>
+
+        <button class="add-to-zone w-full text-center text-gray-400 hover:text-gray-600 text-[0.9vw]  ">
+            <div class="flex items-center justify-center gap-[0.5vw]">
+                <img class="w-[1.8vw]" src="img/9604222.png">
+                <span>Assigner</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- S A L L E   D E   S É C U R I T É -->
+    <div class="absolute top-[70%] left-[55%] w-[22%] h-[30%]
+                  rounded-xl p-[0.1vw] shadow-lg zone-empty">
+
+        <div class="flex justify-between items-center mb-[0.8vw]">
+            <h3 class="font-semibold bg-white px-1 rounded text-gray-900 flex items-center text-[1.1vw]">
+                <i class=" mr-[0.5vw] text-red-500 text-[1.3vw]"></i>
+                Salle de Sécurité
+            </h3>
+            <span class="text-[0.9vw] text-gray-500 bg-gray-100 px-[0.8vw] py-[0.3vw] rounded">0/2</span>
+        </div>
+
+        <div class="min-h-[4vw] space-y-[0.4vw]" data-zone="security"></div>
+
+        <button class="add-to-zone w-full text-center text-gray-400 hover:text-gray-600 text-[0.9vw]  ">
+            <div class="flex items-center justify-center gap-[0.5vw]">
+                <img class="w-[1.8vw]" src="img/9604222.png">
+                <span>Assigner</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- S A L L E   D ’ A R C H I V E S -->
+    <div class="absolute top-[70%] left-[78%] w-[22%] h-[30%]
+                  rounded-xl p-[0.1vw] shadow-lg zone-empty">
+
+        <div class="flex justify-between items-center mb-[0.8vw]">
+            <h3 class="font-semibold bg-white px-1 rounded text-gray-900 flex items-center text-[1.1vw]">
+                <i class=" mr-[0.5vw] text-yellow-500 text-[1.3vw]"></i>
+                Salle d'Archives
+            </h3>
+            <span class="text-[0.9vw] text-gray-500 bg-gray-100 px-[0.8vw] py-[0.3vw] rounded">0/2</span>
+        </div>
+
+        <div class="min-h-[4vw] space-y-[0.4vw]" data-zone="archives"></div>
+
+        <button class="add-to-zone w-full text-center text-gray-400 hover:text-gray-600 text-[0.9vw]  ">
+            <div class="flex items-center justify-center gap-[0.5vw]">
+                <img class="w-[1.8vw]" src="img/9604222.png">
+                <span>Assigner</span>
+            </div>
+        </button>
+    </div>
+
+</div>
+
         </main>
     </div>
 
