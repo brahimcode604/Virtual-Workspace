@@ -232,9 +232,10 @@ function renderZone(zone) {
 
 // Rendu de toutes les zones
 function renderAllZones() {
-    Object.keys(appState.zones).forEach(zone => {
-        renderZone(zone);
-    });
+      // Parcourt toutes les zones et les affiche
+  for (let zoneName in appState.zones) {
+    renderZone(zoneName);
+  }
 }
 
 // Création d'une carte employé
