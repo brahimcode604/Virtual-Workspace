@@ -26,6 +26,9 @@ const appState = {
     }
 };
 
+console.log(appState.employees);
+console.log(appState.unassigned);
+
 // Regex pour validation
 const validationRegex = {
     name: /^[a-zA-ZÀ-ÿ\s'-]{2,50}$/,
@@ -240,29 +243,29 @@ function renderAllZones() {
 // Création d'une carte employé
 function createEmployeeCard(employee, isUnassigned) {
     const card = document.createElement('div');
-    card.className = 'employee-card bg-white rounded-lg p-3 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer';
+    card.className = 'employee-card max-w-[21vw] bg-white rounded-lg p-[0.1vw] border border-gray-200  transition-all duration-200 cursor-pointer';
     card.setAttribute('data-employee-id', employee.id);
     card.draggable = true;
 
-    const isIcon = employee.photo.includes('fas fa-');
+    const isIcon = employee.photo.includes('fas fa-');                                                                                                      
     
     card.innerHTML = `
         <div class="flex items-center space-x-3">
             <div class="flex-shrink-0">
                 ${isIcon ? 
-                    `<div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                    `<div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
                         <i class="${employee.photo} text-primary-600"></i>
                      </div>` :
-                    `<img src="${employee.photo}" alt="${employee.name}" class="w-10 h-10 rounded-full object-cover">`
+                    `<img src="${employee.photo}" alt="${employee.name}" class=" w-[3vw] h-[3vw] rounded-full object-cover">`
                 }
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">${employee.name}</p>
-                <p class="text-xs text-gray-500 capitalize">${getRoleName(employee.role)}</p>
+                <p class="text-[1.2vw]  font-medium text-gray-900 truncate">${employee.name}</p>
+                <p class="text-[1vw] text-gray-500 capitalize">${getRoleName(employee.role)}</p>
             </div>
             ${!isUnassigned ? `
-                <button class="remove-from-zone text-gray-400 hover:text-error-500 transition-colors">
-                    <i class="fas fa-times"></i>
+                <button class=" remove-from-zone mx-[0.4vw] text-gray-400 hover:text-error-500 transition-colors">
+                    <i class="fas fa-times "></i>
                 </button>
             ` : ''}
         </div>
@@ -398,10 +401,10 @@ function updateZoneStyles() {
         const countElement = zoneElement.querySelector('.bg-gray-100');
         if (countElement) {
             const isFull = appState.zones[zone].length >= appState.zoneLimits[zone];
-            countElement.className = `text-sm px-2 py-1 rounded ${
+            countElement.className = `text-[1vw] px-1 mt-1 rounded ${
                 isFull ? 'bg-error-100 text-error-800' : 'bg-gray-100 text-gray-500'
             }`;
-        }
+        }                                                           
     });
 }
 
@@ -724,16 +727,16 @@ function setupEventListeners() {
     document.querySelectorAll('[data-zone]').forEach(zoneElement => {
         zoneElement.addEventListener('dragover', (e) => {
             e.preventDefault();
-            zoneElement.classList.add('bg-gray-50');
+            // zoneElement.classList.add('bg-gray-50');
         });
 
         zoneElement.addEventListener('dragleave', () => {
-            zoneElement.classList.remove('bg-gray-50');
+            // zoneElement.classList.remove('bg-gray-50');
         });
 
         zoneElement.addEventListener('drop', (e) => {
             e.preventDefault();
-            zoneElement.classList.remove('bg-gray-50');
+            // zoneElement.classList.remove('bg-gray-50');
             const employeeId = e.dataTransfer.getData('text/plain');
             const zone = zoneElement.getAttribute('data-zone');
             assignToZone(employeeId, zone);
@@ -802,6 +805,5 @@ function initApp() {
     setupEventListeners();
     updateZoneStyles();
 }
-
 // Démarrer l'application
 initApp();
