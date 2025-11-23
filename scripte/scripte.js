@@ -1,4 +1,3 @@
-// État global de l'application
 const appState = {
     employees: JSON.parse(localStorage.getItem('employees')) || [],
     unassigned: JSON.parse(localStorage.getItem('unassigned')) || [],
@@ -20,16 +19,16 @@ const appState = {
     },
     zoneRestrictions: {
         'reception': ['receptionist', 'manager', 'cleaner'],
-        'server': ['technician', 'manager'],
-        'security': ['security', 'manager'],
+        'server': ['technician', 'manager','cleaner'],
+        'security': ['security', 'manager','cleaner'],
         'archives': ['manager', 'developer', 'designer', 'receptionist', 'technician', 'security']
     }
 };
 
 console.log(appState.employees);
 console.log(appState.unassigned);
-
-// Regex pour validation
+console.log(appState.zones);
+ 
 const validationRegex = {
     name: /^[a-zA-ZÀ-ÿ\s'-]{2,50}$/,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
@@ -37,12 +36,10 @@ const validationRegex = {
     photo: /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)(?:\?.*)?$/i
 };
 
-// Génération d'ID unique
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-// Validation des données employé
 function validateEmployee(data) {
     const errors = [];
 
@@ -69,7 +66,6 @@ function validateEmployee(data) {
     return errors;
 }
 
-// Photo par défaut selon le rôle
 function getDefaultPhoto(role) {
     const roleIcons = {
         'manager': 'fas fa-user-tie',
@@ -82,8 +78,7 @@ function getDefaultPhoto(role) {
     };
     return roleIcons[role] || 'fas fa-user';
 }
-
-// Ajout d'un employé
+ 
 function addEmployee(employeeData) {
     const errors = validateEmployee(employeeData);
     if (errors.length > 0) {
@@ -110,8 +105,7 @@ function addEmployee(employeeData) {
     showSuccess('Employé ajouté avec succès!');
     return true;
 }
-
-// Vérifier si un rôle peut être assigné à une zone
+ 
 function canAssignToZone(role, zone) {
     // Manager peut aller partout
     if (role === 'manager') return true;
@@ -128,8 +122,7 @@ function canAssignToZone(role, zone) {
     // Pas de restrictions pour les autres zones
     return true;
 }
-
-// Assignation à une zone
+ 
 function assignToZone(employeeId, zone) {
     const employee = appState.employees.find(emp => emp.id === employeeId);
     if (!employee) return false;
@@ -167,8 +160,7 @@ function assignToZone(employeeId, zone) {
     updateZoneStyles();
     return true;
 }
-
-// Retirer d'une zone
+ 
 function removeFromZone(employeeId, zone, showInUnassigned = true) {
     const zoneIndex = appState.zones[zone].indexOf(employeeId);
     if (zoneIndex > -1) {
@@ -188,8 +180,7 @@ function removeFromZone(employeeId, zone, showInUnassigned = true) {
     renderUnassigned();
     updateZoneStyles();
 }
-
-// Rendu des employés non assignés
+ 
 function renderUnassigned() {
     const container = document.getElementById('unassigned-staff');
     container.innerHTML = '';
@@ -212,8 +203,7 @@ function renderUnassigned() {
         }
     });
 }
-
-// Rendu d'une zone spécifique
+ 
 function renderZone(zone) {
     const container = document.querySelector(`[data-zone="${zone}"]`);
     if (!container) return;
@@ -232,15 +222,13 @@ function renderZone(zone) {
         }
     });
 }
-
-// Rendu de toutes les zones
+ 
 function renderAllZones() {
     Object.keys(appState.zones).forEach(zone => {
         renderZone(zone);
     });
 }
-
-// Création d'une carte employé
+ 
 function createEmployeeCard(employee, isUnassigned) {
     const card = document.createElement('div');
     card.className = 'employee-card max-w-[21vw] bg-white rounded-lg p-[0.1vw] border border-gray-200  transition-all duration-200 cursor-pointer';
@@ -288,7 +276,7 @@ function createEmployeeCard(employee, isUnassigned) {
 
     // Drag and Drop
     card.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', employee.id);
+        e.dataTransfer.setData('Id', employee.id);
         card.classList.add('opacity-50');
     });
 
@@ -298,8 +286,7 @@ function createEmployeeCard(employee, isUnassigned) {
 
     return card;
 }
-
-// Fonction pour formater les dates
+ 
 function formatDate(dateString) {
     if (!dateString) return '';
     
@@ -309,8 +296,7 @@ function formatDate(dateString) {
         month: 'short' 
     });
 }
-
-// Affichage du profil employé
+ 
 function showEmployeeProfile(employee) {
     const modal = document.getElementById('employee-profile-modal');
     const content = modal.querySelector('.p-6');
@@ -381,8 +367,7 @@ function showEmployeeProfile(employee) {
         modal.classList.remove('flex');
     });
 }
-
-// Mise à jour des styles des zones
+ 
 function updateZoneStyles() {
     const zoneElements = document.querySelectorAll('[data-zone]');
     
@@ -407,8 +392,7 @@ function updateZoneStyles() {
         }                                                           
     });
 }
-
-// Réorganisation automatique
+ 
 function autoReorganize() {
     // Réinitialiser toutes les zones
     Object.keys(appState.zones).forEach(zone => {
@@ -437,8 +421,7 @@ function autoReorganize() {
 
     showSuccess('Réorganisation automatique effectuée!');
 }
-
-// Sauvegarde dans le localStorage
+ 
 function saveToStorage() {
     localStorage.setItem('employees', JSON.stringify(appState.employees));
     localStorage.setItem('unassigned', JSON.stringify(appState.unassigned));
@@ -446,8 +429,7 @@ function saveToStorage() {
         localStorage.setItem(`zone_${zone}`, JSON.stringify(appState.zones[zone]));
     });
 }
-
-// Utilitaires
+ 
 function getZoneName(zone) {
     const zoneNames = {
         'conference': 'Salle de Conférence',
@@ -480,8 +462,7 @@ function showError(message) {
 function showSuccess(message) {
     alert(`Succès: ${message}`);
 }
-
-// Modal d'assignation à une zone
+ 
 function showZoneAssignmentModal(zone) {
     const eligibleEmployees = appState.unassigned.filter(employeeId => {
         const employee = appState.employees.find(emp => emp.id === employeeId);
@@ -555,10 +536,6 @@ function showZoneAssignmentModal(zone) {
     document.body.appendChild(tempModal);
 }
 
-// GESTION DES EXPÉRIENCES PROFESSIONNELLES - CODE CORRIGÉ
-
-// Fonction pour récupérer et valider les expériences
-// Fonction pour récupérer et valider les expériences
 function getExperiencesData() {
     const experiences = [];
     const experienceItems = document.querySelectorAll('.experience-item');
@@ -617,8 +594,7 @@ function getExperiencesData() {
     
     return experiences;
 }
-
-// Ajout d'expériences dynamiques avec validation
+ 
 document.getElementById('add-experience').addEventListener('click', function() {
     const container = document.getElementById('experiences-container');
     
@@ -737,7 +713,7 @@ function setupEventListeners() {
         zoneElement.addEventListener('drop', (e) => {
             e.preventDefault();
             // zoneElement.classList.remove('bg-gray-50');
-            const employeeId = e.dataTransfer.getData('text/plain');
+            const employeeId = e.dataTransfer.getData('Id');
             const zone = zoneElement.getAttribute('data-zone');
             assignToZone(employeeId, zone);
         });
@@ -767,7 +743,6 @@ document.getElementById('cancel-modal').addEventListener('click', function() {
     document.getElementById('add-employee-modal').classList.remove('flex');
 });
 
-// Gestion de la prévisualisation de photo
 document.querySelector('input[name="photo"]').addEventListener('input', function(e) {
     const preview = document.getElementById('photo-preview');
     const placeholder = document.getElementById('photo-placeholder');
@@ -798,12 +773,10 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Initialisation de l'application
 function initApp() {
     renderUnassigned();
     renderAllZones();
     setupEventListeners();
     updateZoneStyles();
 }
-// Démarrer l'application
 initApp();
